@@ -30,8 +30,7 @@ public class GameController {
         try{
             return ResponseEntity.status(200).body(gameService.findById(id));
         }catch (NotFoundIdException e){
-            ResponseErrorDTO response = new ResponseErrorDTO(e.getMessage());
-            return ResponseEntity.status(400).body(response.getResponse());
+            return ResponseEntity.status(400).body(new ResponseErrorDTO(e.getMessage()));
         }
 
     }
