@@ -2,6 +2,7 @@ package com.intensivao.dslist.services;
 
 import com.intensivao.dslist.dto.GameListDTO;
 import com.intensivao.dslist.entities.GameList;
+import com.intensivao.dslist.exceptions.GameListNameAlreadyExitsException;
 import com.intensivao.dslist.projections.GameMinProjection;
 import com.intensivao.dslist.repositories.GameListRepository;
 import com.intensivao.dslist.repositories.GameRepository;
@@ -25,6 +26,17 @@ public class GameListService {
         List<GameList> result = gameListRepository.findAll();
 
         return result.stream().map(x -> new GameListDTO(x)).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public void createListGame(GameList gameList){
+        boolean gameListExists = gameListRepository.findByName(gameList.getName()).isPresent();
+
+        if(gameListExists){
+            throw new GameListNameAlreadyExitsException("O nome da lista de jogos já está em uso");
+        }
+
+        gameListRepository.save(gameList);
     }
 
     @Transactional(readOnly = true)

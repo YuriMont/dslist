@@ -2,6 +2,8 @@ package com.intensivao.dslist.repositories;
 
 import com.intensivao.dslist.entities.Game;
 import java.util.List;
+import java.util.Optional;
+
 import com.intensivao.dslist.projections.GameMinProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +20,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 		ORDER BY tb_belonging.position
 			""")
     List<GameMinProjection> searchByList(Long listId);
+
+	Optional<Game> findByTitle(String title);
 }
